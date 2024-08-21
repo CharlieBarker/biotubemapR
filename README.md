@@ -1,4 +1,4 @@
-![plot_volcano_plus Logo](man/figures/logo-1.png)
+<img src="man/figures/logo-1.png" width="50%" />
 
 # biotubemapR
 

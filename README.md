@@ -1,5 +1,6 @@
-<img src="man/figures/logo-1.png" width="50%" />
-
+<p align="center">
+  <img src="man/figures/logo-1.png" width="50%" />
+</p>
 # biotubemapR
 
 `biotubemapR` is an R package designed to visualize and explore biological networks, drawing inspiration from the iconic layout of underground maps. It offers intuitive graph layouts that organize proteins, receptors, transcription factors, and other molecular entities in a structured and visually appealing manner. The package leverages powerful graph algorithms and layouts, enabling researchers to understand complex signaling pathways and molecular interactions in a user-friendly format.

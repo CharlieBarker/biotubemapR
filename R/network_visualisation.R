@@ -98,7 +98,12 @@ pathwayLayout <- function(graph,
   # Convert the data frame to a matrix for igraph layout
   layout_matrix <- as.matrix(all_layouts)
 
-  return(layout_matrix)
+  #wrap up the output
+  out<-list()
+  out$layout_matrix <- layout_matrix
+  out$node_types <- node_types
+
+  return(out)
 }
 
 #' Plot a Biological Network Using a Custom Layout

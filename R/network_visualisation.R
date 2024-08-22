@@ -83,10 +83,11 @@ pathwayLayout <- function(graph,
   # Add 'type' attribute to vertices
   V(graph)$type <- node_types$type[match(V(graph)$name, node_types$name)]
 
-  # Create layouts for different types of nodes
-  layout_receptors <- create_custom_layout(graph, "receptor", y_position = receptor_y_position)
-  layout_tfs <- create_custom_layout(graph, "transcription_factor", y_position = transcription_factor_y_position)
   layout_others <- create_custom_layout(graph, "other", y_position = other_y_position)
+
+  # Create layouts for different types of nodes
+  layout_receptors <- create_custom_layout(graph, "receptor", y_position = max(layout_others$y) + receptor_y_position)
+  layout_tfs <- create_custom_layout(graph, "transcription_factor", y_position = min(layout_others$y) + transcription_factor_y_position)
 
   # Combine all layouts into one data frame
   all_layouts <- rbind(layout_receptors, layout_tfs, layout_others)

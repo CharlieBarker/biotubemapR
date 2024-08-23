@@ -77,13 +77,13 @@ pathwayLayout <- function(graph,
                           other_y_position = 0,
                           name_var = "name") {
   # Extract node names
-  nodes <- vertex_attr(graph, name_var)
+  nodes <- igraph::vertex_attr(graph, name_var)
 
   # Classify nodes
   node_types <- classify_nodes(nodes)
 
   # Add 'type' attribute to vertices
-  V(graph)$type <- node_types$type[match(V(graph)$name, node_types$name)]
+  V(graph)$type <- node_types$type[match(igraph::vertex_attr(graph, name_var), node_types$name)]
 
   layout_others <- create_custom_layout(graph, "other", y_position = other_y_position)
 
@@ -95,7 +95,7 @@ pathwayLayout <- function(graph,
   all_layouts <- rbind(layout_receptors, layout_tfs, layout_others)
 
   # Reorder the layout to match the original graph's node order
-  all_layouts <- all_layouts[V(graph)$name,]
+  all_layouts <- all_layouts[igraph::vertex_attr(graph, name_var),]
 
   # Convert the data frame to a matrix for igraph layout
   layout_matrix <- as.matrix(all_layouts)

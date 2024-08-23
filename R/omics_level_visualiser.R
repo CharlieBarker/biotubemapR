@@ -123,3 +123,75 @@ create_custom_legend <- function(df, levels,
   return(g)
 }
 
+
+#' Create a Combined Legend Grid
+#'
+#' This function generates a combined grid of legends for multiple omics levels of a given dataset.
+#'  Each legend displays a gradient scale corresponding to a specific level.
+#'  The resulting legends are combined into a grid layout.
+#'
+#' @param L_df A data frame containing the data to be plotted. It should include columns for each 'omics level specified in the `levels` argument.
+#' @param levels A character vector of column names of levels in `L_df` for which legends should be created. Each level should have a corresponding gradient scale.
+#' @param colours A vector of colours to be used for the gradient scale. This should include at least two colours for a gradient.
+#' @param nrow Number of rows in the combined legend grid. Default is 1.
+#' @param ncol Number of columns in the combined legend grid. Default is 2.
+#'
+#' @return A `ggplot` object containing the combined grid of legends.
+#' @importFrom ggplot2 ggplot geom_point aes_string scale_fill_gradientn
+#' @importFrom cowplot get_legend plot_grid plot_spacer
+#' @examples
+#' # Example data frame
+#' L_df <- data.frame(
+#'   mRNA_Factor1 = runif(100, 0, 1),
+#'   protein_Factor1 = runif(100, 0, 1)
+#' )
+#'
+#' # Create a combined legend grid
+#' create_combined_legend(
+#'   L_df = L_df,
+#'   levels = c("mRNA_Factor1", "protein_Factor1"),
+#'   colours = c("#000000", "#FFFFFF", "#BA0000"),
+#'   nrow = 1,
+#'   ncol = 2
+#' )
+#'
+
+# Function to create a combined legend grid
+create_combined_legend <- function(L_df, levels, colours, nrow = 1, ncol = 2) {
+  # Initialize an empty list to store legends
+  legend_list <- list()
+
+  # Loop through each level to create individual plots and extract legends
+  for (i in seq_along(levels)) {
+    level <- levels[i]
+
+    # Filter out rows with missing values in the current level
+    level_data <- L_df[!is.na(L_df[[level]]), ]
+
+    # Create the ggplot for the current level
+    p <- ggplot(data = level_data) +
+      geom_point(aes_string(x = level, y = level, fill = level), shape = 21) +
+      scale_fill_gradientn(
+        name = paste("Legend", i),
+        limits = c(0, max(level_data[[level]], na.rm = TRUE)),
+        colours = colours,
+        values = c(0, 0.5, 1)
+      )
+
+    # Extract the legend from the plot (handling multiple components)
+    legend_list[[i]] <- cowplot::get_legend(p)
+  }
+  # Create a blank plot to align legends
+  blank_p <- plot_spacer() + theme_void()
+
+  # Combine all legends into a grid
+  combined_legends <- plot_grid(
+    plotlist = legend_list,
+    blank_p,
+    nrow = nrow,
+    ncol = ncol
+  )
+
+  # Return the combined legends
+  return(combined_legends)
+}

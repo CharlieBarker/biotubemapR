@@ -39,12 +39,14 @@ classify_nodes <- function(nodes) {
 #' @param graph An igraph object.
 #' @param type_labels A vector of node types to include in the layout.
 #' @param y_position Numeric value specifying the vertical position for the nodes of this type.
+#' @param name_var Character value specifying the variable in the igraph object containing the gene names.
 #' @return A data frame with the x and y coordinates of the nodes.
 #' @importFrom igraph induced_subgraph layout_with_sugiyama
 #' @export
-create_custom_layout <- function(graph, type_labels, y_position) {
+create_custom_layout <- function(graph, type_labels, y_position,
+                                 name_var = "name") {
   # Get the nodes of the specified type
-  type_nodes <- V(graph)$name[V(graph)$type %in% type_labels]
+  type_nodes <- igraph::vertex_attr(graph, name_var)[V(graph)$type %in% type_labels]
 
   # Create a subgraph with only these nodes
   subgraph_type <- induced_subgraph(graph, type_nodes)
@@ -88,8 +90,10 @@ pathwayLayout <- function(graph,
   layout_others <- create_custom_layout(graph, "other", y_position = other_y_position)
 
   # Create layouts for different types of nodes
-  layout_receptors <- create_custom_layout(graph, "receptor", y_position = max(layout_others$y) + receptor_y_position)
-  layout_tfs <- create_custom_layout(graph, "transcription_factor", y_position = min(layout_others$y) + transcription_factor_y_position)
+  layout_receptors <- create_custom_layout(graph, "receptor", y_position = max(layout_others$y) + receptor_y_position,
+                                           name_var = name_var)
+  layout_tfs <- create_custom_layout(graph, "transcription_factor", y_position = min(layout_others$y) + transcription_factor_y_position,
+                                     name_var = name_var)
 
   # Combine all layouts into one data frame
   all_layouts <- rbind(layout_receptors, layout_tfs, layout_others)

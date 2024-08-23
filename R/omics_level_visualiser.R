@@ -32,7 +32,7 @@ add_levels <- function(df, x, y, size = 6, alpha = 1, stroke = 1, size_increment
   # Loop through each level and create a geom_point layer
   for (level in levels) {
     layer <- geom_point(
-      data = df[df$Gene_name != "Centroid_All_Factors",],
+      data = df,
       aes_string(x = x, y = y, colour = level),
       alpha = alpha,
       size = current_size,

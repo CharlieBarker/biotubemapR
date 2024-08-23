@@ -67,15 +67,17 @@ create_custom_layout <- function(graph, type_labels, y_position) {
 #' @param receptor_y_position Numeric value specifying the vertical position for receptor nodes.
 #' @param transcription_factor_y_position Numeric value specifying the vertical position for transcription factor nodes.
 #' @param other_y_position Numeric value specifying the vertical position for other nodes.
+#' @param name_var Character value specifying the variable in the igraph object containing the gene names.
 #' @return A matrix representing the layout of the entire graph.
 #' @importFrom igraph V
 #' @export
 pathwayLayout <- function(graph,
                           receptor_y_position = 1,
                           transcription_factor_y_position = -1,
-                          other_y_position = 0) {
+                          other_y_position = 0,
+                          name_var = "name") {
   # Extract node names
-  nodes <- V(graph)$name
+  nodes <- V(graph)[[name_var]]
 
   # Classify nodes
   node_types <- classify_nodes(nodes)

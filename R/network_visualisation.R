@@ -77,7 +77,7 @@ pathwayLayout <- function(graph,
                           other_y_position = 0,
                           name_var = "name") {
   # Extract node names
-  nodes <- V(graph)[[name_var]]
+  nodes <- vertex_attr(graph, name_var)
 
   # Classify nodes
   node_types <- classify_nodes(nodes)

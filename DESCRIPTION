@@ -1,6 +1,6 @@
 Package: biotubemapR
 Title: Custom pathway layouts and visualisation of multi-omic data.
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: 
     person("Charlie", "Barker", , "charbarker96@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5223-6838"))

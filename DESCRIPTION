@@ -1,10 +1,10 @@
 Package: biotubemapR
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9001
+Title: Custom pathway layouts and visualisation of multi-omic data.
+Version: 0.0.0.9002
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person("Charlie", "Barker", , "charbarker96@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-5223-6838"))
+Description: biotubemapR is an R package designed to visualize and explore biological networks, drawing inspiration from the iconic layout of underground maps. It offers intuitive graph layouts that organize proteins, receptors, transcription factors, and other molecular entities in a structured and visually appealing manner. The package leverages powerful graph algorithms and layouts, enabling researchers to understand complex signaling pathways and molecular interactions in a user-friendly format.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8

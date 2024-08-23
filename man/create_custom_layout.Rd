@@ -4,7 +4,7 @@
 \alias{create_custom_layout}
 \title{Create a Custom Layout for Nodes Based on Their Type}
 \usage{
-create_custom_layout(graph, type_labels, y_position)
+create_custom_layout(graph, type_labels, y_position, name_var = "name")
 }
 \arguments{
 \item{graph}{An igraph object.}
@@ -12,6 +12,8 @@ create_custom_layout(graph, type_labels, y_position)
 \item{type_labels}{A vector of node types to include in the layout.}
 
 \item{y_position}{Numeric value specifying the vertical position for the nodes of this type.}
+
+\item{name_var}{Character value specifying the variable in the igraph object containing the gene names.}
 }
 \value{
 A data frame with the x and y coordinates of the nodes.

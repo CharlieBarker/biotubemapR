@@ -8,7 +8,8 @@ pathwayLayout(
   graph,
   receptor_y_position = 1,
   transcription_factor_y_position = -1,
-  other_y_position = 0
+  other_y_position = 0,
+  name_var = "name"
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ pathwayLayout(
 \item{transcription_factor_y_position}{Numeric value specifying the vertical position for transcription factor nodes.}
 
 \item{other_y_position}{Numeric value specifying the vertical position for other nodes.}
+
+\item{name_var}{Character value specifying the variable in the igraph object containing the gene names.}
 }
 \value{
 A matrix representing the layout of the entire graph.

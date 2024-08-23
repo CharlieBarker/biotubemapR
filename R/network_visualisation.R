@@ -46,7 +46,7 @@ classify_nodes <- function(nodes) {
 create_custom_layout <- function(graph, type_labels, y_position,
                                  name_var = "name") {
   # Get the nodes of the specified type
-  type_nodes <- igraph::vertex_attr(graph, name_var)[V(graph)$type %in% type_labels]
+  type_nodes <- igraph::vertex_attr(graph, "name")[V(graph)$type %in% type_labels]
 
   # Create a subgraph with only these nodes
   subgraph_type <- induced_subgraph(graph, type_nodes)

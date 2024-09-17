@@ -14,7 +14,7 @@ Whether you're looking to visualize protein interactions, receptor signaling cas
 - **Clear Visualizations**: Generate publication-quality network plots with customizable colors and layout options.
 - **Flexible Node Classification**: Automatically classify nodes as receptors, transcription factors, or other categories using built-in functions.
 - **Flow-Based Subgraph Extraction**: Filter and visualize subgraphs based on flow thresholds to highlight key network components.
-- **Inspired by Underground Maps**: Network layouts are inspired by the clarity and structure of underground transport maps, making complex data easy to navigate.
+- **Inspired by London Underground Maps**: Network layouts are inspired by the clarity and structure of underground transport maps, making complex data easy to navigate.
 
 ## Installation
 

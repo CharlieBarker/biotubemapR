@@ -24,10 +24,22 @@ classify_nodes <- function(nodes) {
     pull(genesymbol) %>%
     unique()
 
+  ligands <-
+    OmnipathR::import_omnipath_intercell(
+      parent = 'ligand',
+      topology = 'sec',
+      consensus_percentile = 50,
+      loc_consensus_percentile = 30,
+      entity_types = 'protein'
+    ) %>%
+    pull(genesymbol) %>%
+    unique
+
   # Create a data frame with nodes and their types
   node_types <- data.frame(
     name = nodes,
     type = ifelse(nodes %in% receptors, "receptor",
+                  nodes %in% ligands, "ligand",
                   ifelse(nodes %in% transcriptionFactors, "transcription_factor", "other"))
   )
 
@@ -74,6 +86,7 @@ create_custom_layout <- function(graph, type_labels, y_position,
 #' @importFrom igraph V
 #' @export
 pathwayLayout <- function(graph,
+                          ligand_y_position = 2,
                           receptor_y_position = 1,
                           transcription_factor_y_position = -1,
                           other_y_position = 0,
@@ -90,11 +103,12 @@ pathwayLayout <- function(graph,
   layout_others <- create_custom_layout(graph, "other", y_position = other_y_position)
 
   # Create layouts for different types of nodes
+  layout_ligands <- create_custom_layout(graph, "ligand", y_position = max(layout_others$y) + ligand_y_position)
   layout_receptors <- create_custom_layout(graph, "receptor", y_position = max(layout_others$y) + receptor_y_position)
   layout_tfs <- create_custom_layout(graph, "transcription_factor", y_position = min(layout_others$y) + transcription_factor_y_position)
 
   # Combine all layouts into one data frame
-  all_layouts <- rbind(layout_receptors, layout_tfs, layout_others)
+  all_layouts <- rbind(layout_ligands, layout_receptors, layout_tfs, layout_others)
 
   # Reorder the layout to match the original graph's node order
   all_layouts <- all_layouts[igraph::vertex_attr(graph, "name"),]

@@ -35,12 +35,12 @@ classify_nodes <- function(nodes) {
     pull(genesymbol) %>%
     unique
 
-  # Create a data frame with nodes and their types
+  # Correct nested ifelse
   node_types <- data.frame(
     name = nodes,
     type = ifelse(nodes %in% receptors, "receptor",
-                  nodes %in% ligands, "ligand",
-                  ifelse(nodes %in% transcriptionFactors, "transcription_factor", "other"))
+                  ifelse(nodes %in% ligands, "ligand",
+                         ifelse(nodes %in% transcriptionFactors, "transcription_factor", "other")))
   )
 
   return(node_types)

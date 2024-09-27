@@ -103,8 +103,8 @@ pathwayLayout <- function(graph,
   layout_others <- create_custom_layout(graph, "other", y_position = other_y_position)
 
   # Create layouts for different types of nodes
-  layout_ligands <- create_custom_layout(graph, "ligand", y_position = max(layout_others$y) + ligand_y_position)
   layout_receptors <- create_custom_layout(graph, "receptor", y_position = max(layout_others$y) + receptor_y_position)
+  layout_ligands <- create_custom_layout(graph, "ligand", y_position = max(layout_receptors$y) + ligand_y_position)
   layout_tfs <- create_custom_layout(graph, "transcription_factor", y_position = min(layout_others$y) + transcription_factor_y_position)
 
   # Combine all layouts into one data frame

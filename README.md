@@ -26,4 +26,61 @@ install.packages("devtools")
 
 # Install biotubemapR from GitHub
 devtools::install_github("CharlieBarker/biotubemapR")
-# biotubemapR
+```
+
+## Custom Pathway Layouts
+
+Organize nodes in a biologically meaningful way, based on their roles (e.g., receptors, transcription factors).
+
+Load packages: 
+```r
+library(BMAlayout) #for extracting kegg graphd
+library(biotubemapR)
+library(tidyverse)
+library(igraph)
+library(jsonlite)
+library(ggraph)
+```
+Use pathwayLayout function on graph to classify nodes and organise as layers 
+```r
+# xmls can be downloaded from kegg website
+g <- kegg_to_igraph("~/Desktop/packages/BMAlayout/examples/KEGGxmls/hsa05224.xml")
+
+pLayout <- pathwayLayout(g)
+```
+
+Plot graph using the bounds of the layers to visualise
+```r
+
+# Get node types and coordinates
+node_types <- pLayout$node_types
+layout_matrix <- pLayout$layout_matrix
+
+# Create a data frame that combines node types and layout coordinates
+node_data <- as.data.frame(layout_matrix) %>%
+  mutate(name = rownames(layout_matrix)) %>%
+  left_join(node_types, by = c("name" = "name"))
+
+# Calculate bounding boxes for each node type
+bounding_boxes <- node_data %>%
+  group_by(type) %>%
+  summarise(
+    xmin = min(x) - 0.5,
+    xmax = max(x) + 0.5,
+    ymin = min(y) - 0.5,
+    ymax = max(y) + 0.5
+  )
+
+# Plot the network
+ggraph(g, layout = layout_matrix) +
+  geom_edge_link(color = "gray") +
+  geom_node_point(size = 5) +  # Color nodes by type
+  # Add bounding boxes
+  geom_rect(data = bounding_boxes, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = type),
+            color = "black", alpha = 0.2) +
+  # Add labels for each node type
+  geom_text(data = bounding_boxes, aes(x = (xmin + xmax) / 2, y = ymax + 0.5, label = type),
+            size = 5, fontface = "bold") +
+  theme_minimal()
+```
+

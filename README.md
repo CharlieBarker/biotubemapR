@@ -48,7 +48,7 @@ Use pathwayLayout function on graph to classify nodes and organise as layers
 # xmls can be downloaded from kegg website
 g <- kegg_to_igraph("./hsa04010.xml")
 
-pLayout <- pathwayLayout(g)
+pLayout <- pathwayLayout(g, transcription_factor_y_position = -3)
 ```
 
 Plot graph using the bounds of the layers to visualise

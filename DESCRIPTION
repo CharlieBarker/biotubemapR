@@ -7,6 +7,14 @@ Authors@R:
 Description: biotubemapR is an R package designed to visualize and explore biological networks, drawing inspiration from the iconic layout of underground maps. It offers intuitive graph layouts that organize proteins, receptors, transcription factors, and other molecular entities in a structured and visually appealing manner. The package leverages powerful graph algorithms and layouts, enabling researchers to understand complex signaling pathways and molecular interactions in a user-friendly format.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
+Imports:
+    OmnipathR,
+    cowplot,
+    dplyr,
+    ggplot2,
+    ggraph,
+    igraph,
+    patchwork
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1

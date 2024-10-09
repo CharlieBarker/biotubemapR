@@ -138,7 +138,8 @@ create_custom_legend <- function(df, levels,
 #'
 #' @return A `ggplot` object containing the combined grid of legends.
 #' @importFrom ggplot2 ggplot geom_point aes_string scale_fill_gradientn
-#' @importFrom cowplot get_legend plot_grid plot_spacer
+#' @importFrom patchwork plot_spacer
+#' @importFrom cowplot get_legend plot_grid
 #' @examples
 #' # Example data frame
 #' L_df <- data.frame(

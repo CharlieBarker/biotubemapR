@@ -8,6 +8,7 @@ Description: biotubemapR is an R package designed to visualize and explore biolo
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Imports:
+    tidyr,
     OmnipathR,
     cowplot,
     dplyr,

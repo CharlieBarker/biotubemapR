@@ -95,3 +95,9 @@ ggraph(g, layout = layout_matrix) +
   )
 ```
 
+output :
+
+<p align="center">
+  <img src="man/figures/pathway_plot.png" width="50%" />
+</p>
+

@@ -40,11 +40,13 @@ library(tidyverse)
 library(igraph)
 library(jsonlite)
 library(ggraph)
+library(ghibli) #for palettes 
+
 ```
 Use pathwayLayout function on graph to classify nodes and organise as layers 
 ```r
 # xmls can be downloaded from kegg website
-g <- kegg_to_igraph("~/Desktop/packages/BMAlayout/examples/KEGGxmls/hsa05224.xml")
+g <- kegg_to_igraph("./hsa04010.xml")
 
 pLayout <- pathwayLayout(g)
 ```
@@ -74,13 +76,22 @@ bounding_boxes <- node_data %>%
 # Plot the network
 ggraph(g, layout = layout_matrix) +
   geom_edge_link(color = "gray") +
-  geom_node_point(size = 5) +  # Color nodes by type
+  geom_node_point(size = 3) +  # Color nodes by type
   # Add bounding boxes
   geom_rect(data = bounding_boxes, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = type),
             color = "black", alpha = 0.2) +
+  # Apply Ghibli color palette to the fill aesthetic
+  scale_fill_ghibli_d("PonyoMedium") +
   # Add labels for each node type
   geom_text(data = bounding_boxes, aes(x = (xmin + xmax) / 2, y = ymax + 0.5, label = type),
             size = 5, fontface = "bold") +
-  theme_minimal()
+  cowplot::theme_cowplot()+
+  theme(
+    legend.position = "none",  # Hide the legend
+    axis.line = element_blank(),  # Remove axis lines
+    axis.text = element_blank(),  # Remove axis text (tick labels)
+    axis.ticks = element_blank(), # Remove axis ticks
+    axis.title = element_blank()  # Remove axis titles
+  )
 ```
 

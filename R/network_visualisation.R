@@ -7,7 +7,7 @@
 #' @export
 classify_nodes <- function(nodes) {
   # Get list of receptors
-  receptors <- OmnipathR::import_omnipath_intercell(
+  receptors <- OmnipathR::intercell(
     parent = 'receptor',
     topology = 'pmtm',
     consensus_percentile = 50,
@@ -17,7 +17,7 @@ classify_nodes <- function(nodes) {
     pull(genesymbol) %>% unique()
 
   # Get list of transcription factors
-  transcriptionFactors <- OmnipathR::import_omnipath_annotations(
+  transcriptionFactors <- OmnipathR::annotations(
     resources = 'TFcensus',
     entity_types = 'protein'
   ) %>%
@@ -25,7 +25,7 @@ classify_nodes <- function(nodes) {
     unique()
 
   ligands <-
-    OmnipathR::import_omnipath_intercell(
+    OmnipathR::intercell(
       parent = 'ligand',
       topology = 'sec',
       consensus_percentile = 50,

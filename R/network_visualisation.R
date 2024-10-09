@@ -17,7 +17,7 @@ classify_nodes <- function(nodes) {
     pull(genesymbol) %>% unique()
 
   # Get list of transcription factors
-  transcriptionFactors <- import_omnipath_annotations(
+  transcriptionFactors <- OmnipathR::import_omnipath_annotations(
     resources = 'TFcensus',
     entity_types = 'protein'
   ) %>%
@@ -82,6 +82,8 @@ create_custom_layout <- function(graph, type_labels, y_position,
 #' @param transcription_factor_y_position Numeric value specifying the vertical position for transcription factor nodes.
 #' @param other_y_position Numeric value specifying the vertical position for other nodes.
 #' @param name_var Character value specifying the variable in the igraph object containing the gene names.
+#' @param type_df (OPTIONAL) Dataframe that specifies the different types of nodes, and therefore what layers they belong to. Columns names are "name" and "type". "type" can be one of "receptor", "ligand", "transcription_factor", "phenotype" and "other".
+
 #' @return A matrix representing the layout of the entire graph.
 #' @importFrom igraph V
 #' @export
@@ -90,12 +92,16 @@ pathwayLayout <- function(graph,
                           receptor_y_position = 1,
                           transcription_factor_y_position = -1,
                           other_y_position = 0,
-                          name_var = "name") {
+                          name_var = "name",
+                          type_df = NULL) {
   # Extract node names
   nodes <- igraph::vertex_attr(graph, name_var)
-
-  # Classify nodes
-  node_types <- classify_nodes(nodes)
+  if (is.null(type_df)) {
+    # Classify nodes
+    node_types <- classify_nodes(nodes)
+  }else{
+    node_types <- type_df
+  }
 
   # Add 'type' attribute to vertices
   V(graph)$type <- node_types$type[match(igraph::vertex_attr(graph, name_var), node_types$name)]
@@ -106,9 +112,10 @@ pathwayLayout <- function(graph,
   layout_receptors <- create_custom_layout(graph, "receptor", y_position = max(layout_others$y) + receptor_y_position)
   layout_ligands <- create_custom_layout(graph, "ligand", y_position = max(layout_receptors$y) + ligand_y_position)
   layout_tfs <- create_custom_layout(graph, "transcription_factor", y_position = min(layout_others$y) + transcription_factor_y_position)
+  layout_phenotypes <- create_custom_layout(graph, "transcription_factor", y_position = min(layout_tfs$y) + transcription_factor_y_position - 1)
 
   # Combine all layouts into one data frame
-  all_layouts <- rbind(layout_ligands, layout_receptors, layout_tfs, layout_others)
+  all_layouts <- rbind(layout_ligands, layout_receptors, layout_others, layout_tfs, layout_phenotypes)
 
   # Reorder the layout to match the original graph's node order
   all_layouts <- all_layouts[igraph::vertex_attr(graph, "name"),]

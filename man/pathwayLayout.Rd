@@ -6,10 +6,12 @@
 \usage{
 pathwayLayout(
   graph,
+  ligand_y_position = 2,
   receptor_y_position = 1,
   transcription_factor_y_position = -1,
   other_y_position = 0,
-  name_var = "name"
+  name_var = "name",
+  type_df = NULL
 )
 }
 \arguments{
@@ -22,6 +24,8 @@ pathwayLayout(
 \item{other_y_position}{Numeric value specifying the vertical position for other nodes.}
 
 \item{name_var}{Character value specifying the variable in the igraph object containing the gene names.}
+
+\item{type_df}{(OPTIONAL) Dataframe that specifies the different types of nodes, and therefore what layers they belong to. Columns names are "name" and "type". "type" can be one of "receptor", "ligand", "transcription_factor", "phenotype" and "other".}
 }
 \value{
 A matrix representing the layout of the entire graph.

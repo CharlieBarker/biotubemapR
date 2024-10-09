@@ -112,7 +112,7 @@ pathwayLayout <- function(graph,
   layout_receptors <- create_custom_layout(graph, "receptor", y_position = max(layout_others$y) + receptor_y_position)
   layout_ligands <- create_custom_layout(graph, "ligand", y_position = max(layout_receptors$y) + ligand_y_position)
   layout_tfs <- create_custom_layout(graph, "transcription_factor", y_position = min(layout_others$y) + transcription_factor_y_position)
-  layout_phenotypes <- create_custom_layout(graph, "transcription_factor", y_position = min(layout_tfs$y) + transcription_factor_y_position - 1)
+  layout_phenotypes <- create_custom_layout(graph, "phenotype", y_position = min(layout_tfs$y) + transcription_factor_y_position - 1)
 
   # Combine all layouts into one data frame
   all_layouts <- rbind(layout_ligands, layout_receptors, layout_others, layout_tfs, layout_phenotypes)

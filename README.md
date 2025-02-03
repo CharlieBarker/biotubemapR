@@ -101,3 +101,4 @@ output :
   <img src="man/figures/pathway_plot.png" width="50%" />
 </p>
 
+tube data taken from https://github.com/nicola/tubemaps/tree/master

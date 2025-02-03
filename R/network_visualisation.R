@@ -139,11 +139,12 @@ pathwayLayout <- function(graph,
 #' @return A ggplot2 object of the plotted network.
 #' @import ggraph ggplot2
 #' @export
-londonUnderground_plot <- function(graph, path_layout, color) {
+londonUnderground_plot <- function(graph, path_layout, color,
+                                   nudge_label_y = 0.5, size = 4, stroke = 2) {
   ggraph(graph, layout = path_layout) +
     geom_edge_link(aes(color = "line"), width = 2) + # Customize the edge color and thickness
-    geom_node_point(color = "black", size = 8, shape = 21, fill = "white", stroke = 2) + # Customize the node color, outline, and size
-    geom_node_text(aes(label = name), nudge_y = 0.5, size = 4, fontface = "bold", color = "black") + # Avoid label overlap
+    geom_node_point(color = "black", size = 8, shape = 21, fill = "white", stroke = stroke) + # Customize the node color, outline, and size
+    geom_node_text(aes(label = name), nudge_y = nudge_label_y, size = size, fontface = "bold", color = "black") + # Avoid label overlap
     scale_edge_color_manual(values = color) + # Set edge color based on argument
     theme_void() +
     theme(legend.position = "none") + # Remove legend

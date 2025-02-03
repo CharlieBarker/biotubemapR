@@ -24,11 +24,7 @@ E(tube_graph)$color <- edge_colors[as.character(E(tube_graph)$line)]
 
 pLayout <- data.frame(x = stations$longitude, y = stations$latitude)
 
-londonUnderground_plot(tube_graph, path_layout = pLayout, color = "blue", nudge_label_y = 0.0)+
-  theme(
-    legend.position = "none",  # Remove legend
-    plot.margin = margin(0, 0, 0, 0)  # Adjust the plot margins (top, right, bottom, left)
-  ) +
-  coord_fixed() +  # Use fixed aspect ratio
-  scale_x_continuous(expand = expansion(c(0.1, 0.1))) +  # Adjust X axis to ensure nodes are not too close to the edges
-  scale_y_continuous(expand = expansion(c(0.1, 0.1)))  # Adjust Y axis similarly
+ggraph(tube_graph, layout = pLayout) +
+  geom_edge_link(aes(colour = factor(line)), show.legend = FALSE) +
+  geom_node_point()
+

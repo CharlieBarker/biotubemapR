@@ -1,4 +1,4 @@
-
+library(ggraph)
 library(igraph)
 library(readr)
 library(ggplot2)
@@ -24,7 +24,7 @@ E(tube_graph)$color <- edge_colors[as.character(E(tube_graph)$line)]
 
 pLayout <- data.frame(x = stations$longitude, y = stations$latitude)
 
-londonUnderground_plot(tube_graph, path_layout = pLayout, color = "blue")+
+londonUnderground_plot(tube_graph, path_layout = pLayout, color = "blue", nudge_label_y = 0.0)+
   theme(
     legend.position = "none",  # Remove legend
     plot.margin = margin(0, 0, 0, 0)  # Adjust the plot margins (top, right, bottom, left)

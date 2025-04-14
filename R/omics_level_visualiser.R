@@ -1,48 +1,40 @@
-#' Add Multiple `geom_point` Layers for Different Levels of 'omics data
+#' Add Multiple `geom_node_point` Layers for Different Levels of 'Omics Data
 #'
-#' This function creates a list of `geom_point` layers for different 'omics levels
-#' with customizable sizes, alpha transparency, and stroke width. The size of the
-#' points decreases incrementally for each subsequent level.
+#' This function creates a list of `geom_node_point` layers (for use with `ggraph`) to visualize different 'omics-style levels as overlapping node aesthetics.
+#' Each level is rendered with a customizable point size, stroke width, and alpha transparency. Point size decreases for each subsequent level to show multi-layered detail.
 #'
-#' @param df Data frame containing the 'omics data for the plot.
-#' @param x Name of the column in `df` to be used for the x-axis.
-#' @param y Name of the column in `df` to be used for the y-axis.
-#' @param levels A character vector containing the names of 'omics levels.
-#' @param size Initial size of the points for the first level. Default is 6.
-#' @param alpha Alpha transparency for the points. Default is 1 (opaque).
-#' @param stroke Stroke width for the points. Default is 1.
-#' @param size_increment Amount to decrease the size for each subsequent level. Default is 3.
-#' @param ... Additional arguments to be passed to `geom_point`.
-#' @return A list of `geom_point` layers.
-#' @export
+#' @param levels A character vector specifying the names of vertex attributes (e.g., 'omics levels') to visualize.
+#' @param size Initial point size for the topmost level. Default is 6.
+#' @param alpha Alpha transparency of the points. Default is 1 (fully opaque).
+#' @param stroke Stroke width of the points. Default is 1.
+#' @param size_increment Amount to decrease the point size for each successive level. Default is 3.
+#' @param ... Additional aesthetic arguments passed to `geom_node_point()`.
+#'
+#' @return A list of `geom_node_point` layers that can be added to a `ggraph` plot.
+#'
 #' @examples
-#' # Create a list of layers with different levels
-#' layers <- add_levels(df = my_data, x = "x", y = "y", levels = c("level1", "level2"))
+#' # Assuming tube_graph is an igraph object with vertex attributes:
+#' # EntryTapCount and ExitTapCount
+#' ggraph(tube_graph, layout = layout_df) +
+#'   geom_edge_link(aes(colour = I(color)), show.legend = FALSE) +
+#'   add_levels(levels = c("EntryTapCount", "ExitTapCount"), size = 5, size_increment = 2, alpha = 0.8) +
+#'   theme_graph()
+#'
+#' @export
 
-
-# Define a function that returns a list of geom_point layers for different levels
-add_levels <- function(df, x, y, levels, size = 6, alpha = 1, stroke = 1, size_increment = 3, ...) {
-  # Initialize a size multiplier
+add_levels <- function(levels, size = 6, alpha = 1, stroke = 1, size_increment = 3, ...) {
   current_size <- size
-
-  # Create a list to store the layers
   layers <- list()
 
-  # Loop through each level and create a geom_point layer
   for (level in levels) {
-    layer <- geom_point(
-      data = df,
-      aes_string(x = x, y = y, colour = level),
-      alpha = alpha,
+    layer <- geom_node_point(
+      aes(colour = .data[[level]]),  # <- this replaces aes_string()
       size = current_size,
       stroke = stroke,
-      ... # Pass additional arguments to geom_point
+      alpha = alpha,
+      ...
     )
-
-    # Add the layer to the list
     layers <- append(layers, list(layer))
-
-    # Decrease the size for the next level
     current_size <- current_size - size_increment
   }
 

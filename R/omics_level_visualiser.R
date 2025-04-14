@@ -21,8 +21,7 @@
 
 
 # Define a function that returns a list of geom_point layers for different levels
-
-add_levels <- function(df, x, y, size = 6, alpha = 1, stroke = 1, size_increment = 3, ...) {
+add_levels <- function(df, x, y, levels, size = 6, alpha = 1, stroke = 1, size_increment = 3, ...) {
   # Initialize a size multiplier
   current_size <- size
 
@@ -43,13 +42,12 @@ add_levels <- function(df, x, y, size = 6, alpha = 1, stroke = 1, size_increment
     # Add the layer to the list
     layers <- append(layers, list(layer))
 
-    # Increase the size for the next level
+    # Decrease the size for the next level
     current_size <- current_size - size_increment
   }
 
   return(layers)
 }
-
 
 #' Create a Custom Legend with Geom Points for Different 'omics Levels
 #'

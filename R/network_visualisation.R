@@ -181,8 +181,12 @@ theme_tfl <- function(nudge_label_y = 0.5,
 #' @param stroke Node stroke width.
 #' @return A ggplot2 object of the plotted network.
 #' @export
-londonUnderground_plot <- function(graph, path_layout, color,
-                                   nudge_label_y = 0.5, size = 4, stroke = 2) {
+londonUnderground_plot <- function(graph, path_layout,
+                                   nudge_label_y = 0.5,
+                                   size = 4,
+                                   stroke = 2) {
   ggraph(graph, layout = path_layout) +
-    theme_tfl(color = color, nudge_label_y = nudge_label_y, size = size, stroke = stroke)
+    theme_tfl(nudge_label_y = nudge_label_y,
+              text.size = size,
+              stroke = stroke)
 }

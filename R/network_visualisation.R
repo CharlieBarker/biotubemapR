@@ -131,24 +131,58 @@ pathwayLayout <- function(graph,
   return(out)
 }
 
-#' Plot a Biological Network Using a Custom Layout
+#' TFL-style ggplot theme and geoms for biological network plots
+#'
+#' @param color Optional: A character string or named vector for edge colors.
+#' @param nudge_label_y Vertical adjustment for node labels.
+#' @param node.size Size of the node points.
+#' @param stroke Stroke width of the nodes.
+#' @param text.size Font size for node labels.
+#' @param show.label Logical; whether to display node labels.
+#' @return A list of ggplot2 layers styled in a London Underground aesthetic.
+#' @export
+theme_tfl <- function(nudge_label_y = 0.5,
+                      node.size = 8,
+                      stroke = 2,
+                      text.size = 4,
+                      show.label = TRUE) {
+
+  layers <- list(
+    geom_node_point(color = "black", size = node.size,
+                    shape = 21, fill = "white", stroke = stroke),
+    coord_fixed(),
+    scale_x_continuous(expand = expansion(c(1, 1))),
+    scale_y_continuous(expand = expansion(c(1, 1))),
+    theme_void(),
+    theme(legend.position = "none")
+  )
+
+  if (show.label) {
+    layers <- append(layers, list(
+      geom_node_text(
+        aes(label = name),
+        nudge_y = nudge_label_y,
+        size = text.size,
+        fontface = "bold",
+        color = "black"
+      )
+    ))
+  }
+  return(layers)
+}
+
+#' Plot a Biological Network Using a TFL-style Layout
 #'
 #' @param graph An igraph object representing the biological network.
-#' @param path_layout A matrix or data frame representing the layout of the nodes.
-#' @param color A character string specifying the color for edges.
+#' @param path_layout A layout matrix or data frame.
+#' @param color A character string or named vector for edge colors.
+#' @param nudge_label_y Vertical adjustment for node labels.
+#' @param size Font size for node labels.
+#' @param stroke Node stroke width.
 #' @return A ggplot2 object of the plotted network.
-#' @import ggraph ggplot2
 #' @export
 londonUnderground_plot <- function(graph, path_layout, color,
                                    nudge_label_y = 0.5, size = 4, stroke = 2) {
   ggraph(graph, layout = path_layout) +
-    geom_edge_link(aes(color = "line"), width = 2) + # Customize the edge color and thickness
-    geom_node_point(color = "black", size = 8, shape = 21, fill = "white", stroke = stroke) + # Customize the node color, outline, and size
-    geom_node_text(aes(label = name), nudge_y = nudge_label_y, size = size, fontface = "bold", color = "black") + # Avoid label overlap
-    scale_edge_color_manual(values = color) + # Set edge color based on argument
-    theme_void() +
-    theme(legend.position = "none") + # Remove legend
-    coord_fixed() +
-    scale_x_continuous(expand = expansion(c(1, 1))) +
-    scale_y_continuous(expand = expansion(c(1, 1)))
+    theme_tfl(color = color, nudge_label_y = nudge_label_y, size = size, stroke = stroke)
 }

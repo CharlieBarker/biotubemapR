@@ -161,12 +161,12 @@ ggraph(tube_graph, layout = pLayout) +
     data = merged_df,
     aes(x = longitude, y = latitude, colour = value_scaled),
     inherit.aes = FALSE,
-    size = .6, alpha = 0.85
+    size = .8, alpha = 0.85
   ) +
 
   # Coordinate system & transitions
   coord_fixed() +
-  transition_states(day_time_label, transition_length = 0.5, state_length = 0.5) +
+  transition_states(day_time_label, transition_length = 1, state_length = 1) +
   labs(title = '{closest_state}', x = '', y = '') +
   theme_void() +
   theme(legend.position = "none") +
@@ -177,14 +177,13 @@ ggraph(tube_graph, layout = pLayout) +
   scale_y_continuous(limits = y_range, expand = c(0, 0)) +
   coord_fixed()
 
-animate(last_plot(), width = 1600, height = 1000, res = 200)
 anim <- animate(
   last_plot(),
   width = 1600,
-  height = 1000,
+  height = 800,
   res = 200,
   fps = 10,        # frames per second
-  duration = 20    # total duration in seconds
+  duration = 40    # total duration in seconds
 )
 
 anim_save("./graphics/tfl_animation.gif", animation = anim)

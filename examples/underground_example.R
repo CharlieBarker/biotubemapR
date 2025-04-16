@@ -141,7 +141,7 @@ library(gganimate)
 
 # Combined plot with network and animated tap points
 ggraph(tube_graph, layout = pLayout) +
-  geom_edge_link(aes(colour = I(color)), show.legend = FALSE, width = .2) +
+  geom_edge_link(aes(colour = I(color)), show.legend = FALSE, width = .4) +
 
   # Tap count color scale
   scale_colour_gradientn(
@@ -178,7 +178,16 @@ ggraph(tube_graph, layout = pLayout) +
   coord_fixed()
 
 animate(last_plot(), width = 1600, height = 1000, res = 200)
+anim <- animate(
+  last_plot(),
+  width = 1600,
+  height = 1000,
+  res = 200,
+  fps = 10,        # frames per second
+  duration = 20    # total duration in seconds
+)
 
+anim_save("./graphics/tfl_animation.gif", animation = anim)
 
 #in shiny form
 

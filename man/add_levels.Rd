@@ -2,38 +2,36 @@
 % Please edit documentation in R/omics_level_visualiser.R
 \name{add_levels}
 \alias{add_levels}
-\title{Add Multiple \code{geom_point} Layers for Different Levels of 'omics data}
+\title{Add Multiple \code{geom_node_point} Layers for Different Levels of 'Omics Data}
 \usage{
-add_levels(df, x, y, size = 6, alpha = 1, stroke = 1, size_increment = 3, ...)
+add_levels(levels, size = 6, alpha = 1, stroke = 1, size_increment = 3, ...)
 }
 \arguments{
-\item{df}{Data frame containing the 'omics data for the plot.}
+\item{levels}{A character vector specifying the names of vertex attributes (e.g., 'omics levels') to visualize.}
 
-\item{x}{Name of the column in \code{df} to be used for the x-axis.}
+\item{size}{Initial point size for the topmost level. Default is 6.}
 
-\item{y}{Name of the column in \code{df} to be used for the y-axis.}
+\item{alpha}{Alpha transparency of the points. Default is 1 (fully opaque).}
 
-\item{size}{Initial size of the points for the first level. Default is 6.}
+\item{stroke}{Stroke width of the points. Default is 1.}
 
-\item{alpha}{Alpha transparency for the points. Default is 1 (opaque).}
+\item{size_increment}{Amount to decrease the point size for each successive level. Default is 3.}
 
-\item{stroke}{Stroke width for the points. Default is 1.}
-
-\item{size_increment}{Amount to decrease the size for each subsequent level. Default is 3.}
-
-\item{...}{Additional arguments to be passed to \code{geom_point}.}
-
-\item{levels}{A character vector containing the names of 'omics levels.}
+\item{...}{Additional aesthetic arguments passed to \code{geom_node_point()}.}
 }
 \value{
-A list of \code{geom_point} layers.
+A list of \code{geom_node_point} layers that can be added to a \code{ggraph} plot.
 }
 \description{
-This function creates a list of \code{geom_point} layers for different 'omics levels
-with customizable sizes, alpha transparency, and stroke width. The size of the
-points decreases incrementally for each subsequent level.
+This function creates a list of \code{geom_node_point} layers (for use with \code{ggraph}) to visualize different 'omics-style levels as overlapping node aesthetics.
+Each level is rendered with a customizable point size, stroke width, and alpha transparency. Point size decreases for each subsequent level to show multi-layered detail.
 }
 \examples{
-# Create a list of layers with different levels
-layers <- add_levels(df = my_data, x = "x", y = "y", levels = c("level1", "level2"))
+# Assuming tube_graph is an igraph object with vertex attributes:
+# EntryTapCount and ExitTapCount
+ggraph(tube_graph, layout = layout_df) +
+  geom_edge_link(aes(colour = I(color)), show.legend = FALSE) +
+  add_levels(levels = c("EntryTapCount", "ExitTapCount"), size = 5, size_increment = 2, alpha = 0.8) +
+  theme_graph()
+
 }

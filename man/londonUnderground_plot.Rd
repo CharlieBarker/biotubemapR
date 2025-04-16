@@ -2,20 +2,32 @@
 % Please edit documentation in R/network_visualisation.R
 \name{londonUnderground_plot}
 \alias{londonUnderground_plot}
-\title{Plot a Biological Network Using a Custom Layout}
+\title{Plot a Biological Network Using a TFL-style Layout}
 \usage{
-londonUnderground_plot(graph, path_layout, color)
+londonUnderground_plot(
+  graph,
+  path_layout,
+  nudge_label_y = 0.5,
+  size = 4,
+  stroke = 2
+)
 }
 \arguments{
 \item{graph}{An igraph object representing the biological network.}
 
-\item{path_layout}{A matrix or data frame representing the layout of the nodes.}
+\item{path_layout}{A layout matrix or data frame.}
 
-\item{color}{A character string specifying the color for edges.}
+\item{nudge_label_y}{Vertical adjustment for node labels.}
+
+\item{size}{Font size for node labels.}
+
+\item{stroke}{Node stroke width.}
+
+\item{color}{A character string or named vector for edge colors.}
 }
 \value{
 A ggplot2 object of the plotted network.
 }
 \description{
-Plot a Biological Network Using a Custom Layout
+Plot a Biological Network Using a TFL-style Layout
 }

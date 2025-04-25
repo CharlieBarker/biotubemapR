@@ -17,12 +17,14 @@ classify_nodes <- function(nodes) {
     pull(genesymbol) %>% unique()
 
   # Get list of transcription factors
-  transcriptionFactors <- OmnipathR::annotations(
-    resources = 'TFcensus',
-    entity_types = 'protein'
-  ) %>%
-    pull(genesymbol) %>%
-    unique()
+  transcriptionFactors <- OmnipathR::import_transcriptional_interactions(
+      # confidence levels;
+      # we use only the 3 levels with highest confidence
+      dorothea_levels = c('A', 'B', 'C'),
+      entity_types = 'protein'
+    ) %>%
+    pull(source_genesymbol) %>%
+    unique
 
   ligands <-
     OmnipathR::intercell(

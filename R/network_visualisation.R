@@ -3,7 +3,7 @@
 #' @param nodes A vector of node names to classify.
 #' @return A data frame with node names and their corresponding types ("receptor", "transcription_factor", or "other").
 #' @importFrom dplyr pull
-#' @importFrom OmnipathR intercell annotations
+#' @importFrom OmnipathR intercell import_transcriptional_interactions
 #' @export
 classify_nodes <- function(nodes) {
   # Get list of receptors

@@ -3,18 +3,9 @@
 #' @param nodes A vector of node names to classify.
 #' @return A data frame with node names and their corresponding types ("receptor", "transcription_factor", or "other").
 #' @importFrom dplyr pull
-#' @importFrom OmnipathR intercell import_transcriptional_interactions
+#' @importFrom OmnipathR import_omnipath_intercell import_transcriptional_interactions
 #' @export
 classify_nodes <- function(nodes) {
-  # Get list of receptors
-  receptors <- OmnipathR::intercell(
-    parent = 'receptor',
-    topology = 'pmtm',
-    consensus_percentile = 50,
-    loc_consensus_percentile = 30,
-    entity_types = 'protein'
-  ) %>%
-    pull(genesymbol) %>% unique()
 
   # Get list of transcription factors
   transcriptionFactors <- OmnipathR::import_transcriptional_interactions(
@@ -27,9 +18,20 @@ classify_nodes <- function(nodes) {
     unique
 
   ligands <-
-    OmnipathR::intercell(
+    OmnipathR::import_omnipath_intercell(
       parent = 'ligand',
       topology = 'sec',
+      consensus_percentile = 50,
+      loc_consensus_percentile = 30,
+      entity_types = 'protein'
+    ) %>%
+    pull(genesymbol) %>%
+    unique
+
+  receptors <-
+    OmnipathR::import_omnipath_intercell(
+      parent = 'receptor',
+      topology = 'pmtm',
       consensus_percentile = 50,
       loc_consensus_percentile = 30,
       entity_types = 'protein'
